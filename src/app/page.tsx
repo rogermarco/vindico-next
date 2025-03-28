@@ -15,15 +15,15 @@ export default async function Home() {
         </p>
       </div>
       <hr className="mx-auto w-3/4 border-b-3 border-neutral-300 mb-3" />
-      <div className="sessions-container grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="sessions-container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-[1]">
         {Object.entries(sessions).length > 0 ? (
           Object.entries(sessions).map(([dateString, sessionTypes]) => {
             // Convert the date string to a Date object for formatting
             const date = new Date(dateString);
             
             return (
-              <div key={format(date, 'MMMM d')} className="date-section bg-fuchsia-200 text-center">
-                <h2 className="font-semibold">{format(date, 'EEEE MMMM d')}</h2>
+              <div key={format(date, 'MMMM d')} className="date-section odd:bg-fuchsia-100 even:bg-purple-200 text-center p-1 border-[1]">
+                <h2 className="font-semibold text-xl">{format(date, 'EEEE MMMM d')}</h2>
                 <div className="session-types-container">
                   <div className="session-type">
                     <h3 className="underline">Public Sessions</h3>
@@ -31,7 +31,7 @@ export default async function Home() {
                       <ul>
                         {sessionTypes["Public Sessions"].map((session, index) => (
                           <li key={`public-${dateString}-${index}`}>
-                            Time: {session.start} - {session.end}
+                            {session.start} - {session.end}
                           </li>
                         ))}
                       </ul>
@@ -45,7 +45,7 @@ export default async function Home() {
                       <ul>
                         {sessionTypes["Training Sessions"].map((session, index) => (
                           <li key={`training-${dateString}-${index}`}>
-                            Time: {session.start} - {session.end}
+                            {session.start} - {session.end}
                           </li>
                         ))}
                       </ul>
@@ -61,8 +61,7 @@ export default async function Home() {
           <p>No sessions available</p>
         )}
       </div>
-      <hr className="mx-auto w-3/4 border-b-3 border-neutral-300 my-3" />
-      <footer>
+      <footer className="mt-2">
         <p className="font-light">Made by Marc with ❤️</p>
       </footer>
     </div>
