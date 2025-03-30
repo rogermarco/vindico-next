@@ -14,7 +14,6 @@ export default async function Loading() {
       {/* Fetch call loading in here */}
       <p>Fetching calendar data</p>
       <img className="w-10 h-10 animate-spin" src="https://www.svgrepo.com/show/491270/loading-spinner.svg" alt="Loading icon" />
-      <hr className="mx-auto w-3/4 border-b-3 border-neutral-300 my-3" />
       <footer>
         <p className="font-light">Made by Marc with ❤️</p>
       </footer>

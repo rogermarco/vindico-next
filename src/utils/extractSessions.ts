@@ -7,7 +7,11 @@ export async function extractSessionData(startDate: Date): Promise<Record<string
   while (hasData) {
     const formattedDate = start.toISOString().split('T')[0];
    
-    const data = await fetch(`https://embed.futureticketing.ie/v13.0.0/inc/api/calendar/?k=ft60df3e10d02ed&d=${formattedDate}`)
+    const data = await fetch(`https://embed.futureticketing.ie/v13.0.0/inc/api/calendar/?k=ft60df3e10d02ed&d=${formattedDate}`, {
+      next: {
+        revalidate: 3600 // 1 hour
+      }
+    })
       .then(response => response.json());
     
     const publicSessions = data.d.filter((entry: { ename: string }) =>
