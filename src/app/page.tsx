@@ -15,14 +15,14 @@ export default async function Home() {
         </p>
       </div>
       <hr className="mx-auto w-3/4 border-b-3 border-neutral-300 mb-3" />
-      <div className="sessions-container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-[1]">
+      <div className="sessions-container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-t-1 border-l-1">
         {Object.entries(sessions).length > 0 ? (
           Object.entries(sessions).map(([dateString, sessionTypes]) => {
             // Convert the date string to a Date object for formatting
             const date = new Date(dateString);
             
             return (
-              <div key={format(date, 'MMMM d')} className="date-section odd:bg-fuchsia-100 even:bg-purple-200 text-center p-1 border-[1]">
+              <div key={format(date, 'MMMM d')} className="date-section odd:bg-fuchsia-100 even:bg-purple-200 text-center p-1 border-r-1 border-b-1">
                 <h2 className="font-semibold text-xl">{format(date, 'EEEE MMMM d')}</h2>
                 <div className="session-types-container">
                   <div className="session-type">
