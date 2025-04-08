@@ -23,8 +23,8 @@ export default async function Home() {
             
             return (
               <div key={format(date, 'MMMM d')} className="date-section odd:bg-fuchsia-100 even:bg-purple-200 text-center p-1 border-r-1 border-b-1">
-                <h2 className="font-semibold text-xl">{format(date, 'EEEE MMMM d')}</h2>
-                <div className="session-types-container">
+                <h2 className="font-semibold text-base sm:text-xl text-balance">{format(date, 'EEEE MMMM d')}</h2>
+                <div className="session-types-container text-sm sm:text-base">
                   <div className="session-type">
                     <h3 className="underline">Public Sessions</h3>
                     {sessionTypes["Public Sessions"].length > 0 ? (
