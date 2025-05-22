@@ -3,9 +3,13 @@ export async function extractSessionData(startDate: Date): Promise<Record<string
  
   const start = new Date(startDate);
  
-  let hasData = true;
-  while (hasData) {
+  let emptyDaysCount = 0;
+  const maxEmptyDays = 7;
+
+  while (emptyDaysCount < maxEmptyDays) {
     const formattedDate = start.toISOString().split('T')[0];
+    console.log(`Fetching data for ${formattedDate}`);
+    
    
     const data = await fetch(`https://embed.futureticketing.ie/v13.0.0/inc/api/calendar/?k=ft60df3e10d02ed&d=${formattedDate}`, {
       next: {
@@ -23,9 +27,12 @@ export async function extractSessionData(startDate: Date): Promise<Record<string
     
     // Check if we have any sessions for this date
     if (publicSessions.length === 0 && trainingSessions.length === 0) {
-      hasData = false;
-      console.log("No more data available.");
-      break;
+      emptyDaysCount++;
+      console.log(`No sessions found for ${formattedDate} 
+                 (${emptyDaysCount} / ${maxEmptyDays} empty days)`);
+    } else {
+      // Reset the empty days count
+      emptyDaysCount = 0;
     }
     
     // Initialize the date entry if it doesn't exist
