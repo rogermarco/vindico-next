@@ -1,5 +1,19 @@
-export async function extractSessionData(startDate: Date): Promise<Record<string, Record<string, { start: string; end: string }[]>>> {
-  const sessions: Record<string, Record<string, { start: string; end: string }[]>> = {};
+function removeLastSeven(obj: Sessions) {
+  const keys = Object.keys(obj);
+  const keysToKeep = keys.slice(0, -7);
+
+  const newObj: Sessions = {};
+
+  for (const key of keysToKeep) {
+    newObj[key] = obj[key];
+  }
+  return newObj;
+}
+
+type Sessions = Record<string, Record<string, { start: string; end: string }[]>>;
+
+export async function extractSessionData(startDate: Date): Promise<Sessions> {
+  const sessions: Sessions = {};
  
   const start = new Date(startDate);
  
@@ -8,8 +22,6 @@ export async function extractSessionData(startDate: Date): Promise<Record<string
 
   while (emptyDaysCount < maxEmptyDays) {
     const formattedDate = start.toISOString().split('T')[0];
-    console.log(`Fetching data for ${formattedDate}`);
-    
    
     const data = await fetch(`https://embed.futureticketing.ie/v13.0.0/inc/api/calendar/?k=ft60df3e10d02ed&d=${formattedDate}`, {
       next: {
@@ -28,8 +40,6 @@ export async function extractSessionData(startDate: Date): Promise<Record<string
     // Check if we have any sessions for this date
     if (publicSessions.length === 0 && trainingSessions.length === 0) {
       emptyDaysCount++;
-      console.log(`No sessions found for ${formattedDate} 
-                 (${emptyDaysCount} / ${maxEmptyDays} empty days)`);
     } else {
       // Reset the empty days count
       emptyDaysCount = 0;
@@ -65,6 +75,7 @@ export async function extractSessionData(startDate: Date): Promise<Record<string
     
     start.setDate(start.getDate() + 1);
   }
-  
-  return sessions;
+  const finalData = removeLastSeven(sessions);
+  console.log(finalData);
+  return finalData;
 }
