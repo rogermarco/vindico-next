@@ -28,16 +28,20 @@ export async function extractSessionData(startDate: Date): Promise<Sessions> {
         revalidate: 3600 // 1 hour
       }
     })
-      .then(response => response.json());
-    
-    const publicSessions = data.d.filter((entry: { ename: string }) =>
+    .then(response => response.json());
+
+    // Normalise the response. Covers weird edge case of data having a different structure
+    const sessionArray = Array.isArray(data.d) ? data.d : Object.values(data.d);
+
+    // Filter for what we need
+    const publicSessions = sessionArray.filter((entry: { ename: string }) =>
       entry.ename === "Public Session"
     );
-    const trainingSessions = data.d.filter((entry: { ename: string }) =>
+    const trainingSessions = sessionArray.filter((entry: { ename: string }) =>
       entry.ename === "Figure Skating Training Session"
     );
     
-    // Check if we have any sessions for this date
+    // Check if we have any sessions for this date. This is what ends the loop
     if (publicSessions.length === 0 && trainingSessions.length === 0) {
       emptyDaysCount++;
     } else {
