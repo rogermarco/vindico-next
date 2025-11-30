@@ -22,13 +22,18 @@ export async function extractSessionData(startDate: Date): Promise<Sessions> {
 
   while (emptyDaysCount < maxEmptyDays) {
     const formattedDate = start.toISOString().split('T')[0];
+    console.log(`https://embed.futureticketing.ie/v13.0.0/inc/api/calendar/?k=ft60df3e10d02ed&d=${formattedDate}`)
    
     const data = await fetch(`https://embed.futureticketing.ie/v13.0.0/inc/api/calendar/?k=ft60df3e10d02ed&d=${formattedDate}`, {
       next: {
         revalidate: 3600 // 1 hour
-      }
+      },
+      credentials: "include",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+      },
     })
-    .then(response => response.json());
+      .then(response => response.json());
 
     // Normalise the response. Covers weird edge case of data having a different structure
     const sessionArray = Array.isArray(data.d) ? data.d : Object.values(data.d);
