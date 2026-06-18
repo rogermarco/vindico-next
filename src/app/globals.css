@@ -3,4 +3,13 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --container-*: initial;
+  --container: 90rem;
+  --breakpoint-xl: 72rem;
+  --breakpoint-2xl: 90rem;
+}
+
+@utility container {
+  @apply mx-auto max-w-[var(--breakpoint-xl)] px-4;
 }
